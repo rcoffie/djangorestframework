@@ -1,9 +1,9 @@
 
-from rest_framework import generics
+from rest_framework import generics, mixins
 
 from .models import Product
 from .serializers import ProductSerializer
-
+from rest_framework.generics import GenericAPIView
 
 class ProductDetialAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
@@ -32,6 +32,34 @@ class ProductUpdateList(generics.UpdateAPIView):
 class ProductListDeleteAPIView(generics.DestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+
+
+
+class CreateListProduct(mixins.ListModelMixin, mixins.CreateModelMixin, GenericAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+class DetailUpdateProduct(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, GenericAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def patch(self, reqeust, *args, **kwargs):
+        return serlf.partial_update(reqeust, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 
