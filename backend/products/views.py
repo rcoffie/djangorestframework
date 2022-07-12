@@ -1,5 +1,5 @@
 
-from rest_framework import generics, mixins
+from rest_framework import generics, mixins, authentication, permissions
 
 from .models import Product
 from .serializers import ProductSerializer
@@ -24,6 +24,9 @@ class ProductDetialAPIView(generics.RetrieveAPIView):
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
 
 class ProductUpdateList(generics.UpdateAPIView):
     queryset = Product.objects.all()
