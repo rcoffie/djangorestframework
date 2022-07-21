@@ -24,8 +24,10 @@ class ProductDetialAPIView(generics.RetrieveAPIView):
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    authentication_classes = [authentication.SessionAuthentication,
+    authentication.TokenAuthentication
+    ]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, permissions.IsAuthenticated]
 
 
 class ProductUpdateList(generics.UpdateAPIView):
