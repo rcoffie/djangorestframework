@@ -1,5 +1,5 @@
 from django.urls import path
-
+from rest_framework.authtoken.views import obtain_auth_token 
 from products import views
 urlpatterns = [
 path('',views.ProductListCreateAPIView.as_view()),
